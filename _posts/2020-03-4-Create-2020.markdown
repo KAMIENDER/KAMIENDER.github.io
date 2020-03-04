@@ -32,7 +32,7 @@ tags:
 
 
 
-![image-20200304212112078](../img/in-post/2020-3-4-Create/1.png)
+![image-20200304212112078](http://kamiendr.github.io/img/in-post/2020-3-4-Create/1.png)
 
 
 
@@ -40,7 +40,7 @@ tags:
 
 
 
-![image-20200304212317600](../img/in-post/2020-3-4-Create/2.png)
+![image-20200304212317600](http://kamiendr.github.io/img/img/in-post/2020-3-4-Create/2.png)
 
 
 
