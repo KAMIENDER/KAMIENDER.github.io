@@ -1,0 +1,47 @@
+---
+layout:     post
+title:      "Welcome to Hejd's Blog"
+subtitle:   " \"The new blog\""
+date:       2020-03-4 21:30:00
+author:     "Hux"
+tags:
+    - 生活
+	- 前端
+---
+
+
+## 前言
+
+2020年，在偶然之中我的博客开启了，希望不会像以前写的日记一样，被时间扯断。
+
+很久之前就想开始建立属于自己的博客，但是网上的像CSDN的模板属实有点丑，而且一直以来都觉得不是特别有必要也就一拖再拖了。2020年一开始，就遇到了疫情这种大事，刚好在年前又找到了实习，自己想做的同步播放器也写完了，一下子就不知道做什么了。这时GitHub的个人博客进入了我的眼帘。
+
+于是建立博客之路开始了。
+
+这个博客的模板是基于https://github.com/BlackrockDigital/startbootstrap-clean-blog-jekyll来建立的，这种程序员之间的继承和分享还挺奇妙的，大概这就是黄金精神的一种吧。
+
+
+
+## 正文
+
+接下来记录一下如何利用Github来建立自己的博客
+
+#### 建立仓库
+
+先在Github上建立一个空仓库，建立完成后，在setting里面重命名为 用户名.github.io，这里一定要使用用户名，否则可能会出现404的情况
+
+
+
+![image-20200304212112078](C:\Users\何家栋\AppData\Roaming\Typora\typora-user-images\image-20200304212112078.png)
+
+
+
+这个时候，在setting下面的GitHub Pages选项中，就会出现你的博客的访问地址了
+
+
+
+![image-20200304212317600](C:\Users\何家栋\AppData\Roaming\Typora\typora-user-images\image-20200304212317600.png)
+
+
+
+然后，将这个仓库clone下了，把你在Github上看中的主题模板中的东西copy到你的仓库里，并且进行自定义的修改，最后push到服务器便可访问了。
