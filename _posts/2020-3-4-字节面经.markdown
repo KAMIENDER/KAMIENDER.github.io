@@ -1,0 +1,103 @@
+---
+layout:     post
+title:      "Welcome to Hejd's Blog"
+subtitle:   " \"The new blog\""
+date:       2020-03-4 21:30:00
+author:     "Hux"
+tags:
+    - 生活
+    - 后端
+    - 面经
+---
+
+# 字节春招实习面经（后端）
+
+### 一面
+
+编程题两道：
+
+* 根据前序中序遍历构建二叉树（输出后序遍历)
+  * leetcode：https://leetcode-cn.com/problems/construct-binary-tree-from-inorder-and-postorder-traversal/
+  * 答案参考：https://blog.csdn.net/okiwilldoit/article/details/78355872
+* 翻转二叉树
+  * leetcode：https://leetcode-cn.com/problems/invert-binary-tree/
+  * 答案参考见leetcode
+
+
+
+问答题：（先让你自我介绍，我将话题引到项目上，引出面试官问项目中我深入了解过的难点，因此参考性可能没那么强）
+
+* cookie和session的差别
+  * 见cyc2018有说
+  * 参考：https://zhuanlan.zhihu.com/p/63061864    https://zhuanlan.zhihu.com/p/27669892
+* 项目中的工作分配
+* 事务的ACID特性以及MySQL中对应的实现机制
+  * 见cyc2018
+* c++智能指针
+  * 参考：https://zhuanlan.zhihu.com/p/103903319  https://zhuanlan.zhihu.com/p/73807983  https://zhuanlan.zhihu.com/p/63488452
+* js跨站访问攻击以及防范措施
+  * 见cyc2018
+* MySQL的缓存
+  * 参考：https://zhuanlan.zhihu.com/p/55947158
+* go的自动内存回收机制
+  * 参考：https://www.zhihu.com/question/21615032
+* token
+
+
+
+### 二面
+
+编程题一道，SQL一道：
+
+* 二叉树中第k大节点
+  * 牛客：https://www.nowcoder.com/practice/ef068f602dde4d28aab2b210e859150a?tpId=13&tqId=11215&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking
+  * 答案见牛客
+* 超过5名学生的课
+  * leetcode：https://leetcode-cn.com/problems/classes-more-than-5-students/
+  * 答案见leetcode
+
+
+
+问答题：
+
+* session与cookie区别
+* c++虚函数
+  * 参考：https://zhuanlan.zhihu.com/p/75172640
+* c++重载与重做，及其底层原理
+* 进程、线程与协程区别、定义
+  * 进程线程见cyc2018，协程参考：https://zhuanlan.zhihu.com/p/38528865    https://www.zhihu.com/question/50185085
+* 进程同步的方法
+  * cyc2018
+* 谈一谈缓存
+  * 这个题比较综合，可以从http强缓存、协商缓存，DNS缓存，缓存服务器，MySQL缓存机制，Redis作为缓存等方面进行讨论
+* 缓存击穿、缓存雪崩、缓存穿透
+  * 参考：https://zhuanlan.zhihu.com/p/58224918
+  * 见cyc2018
+* Linux查看端口占用
+  * lsof -i: 端口号
+* 跨站脚本攻击、跨站请求伪造、SQL注入攻击、泛洪攻击，原理及防范
+  * cyc2018
+* 间隙锁
+  * cyc2018
+
+
+
+### 三面
+
+无编程题
+
+问答题：
+
+* LRU原理，手写LRU
+  * cyc2018
+* 大学遇到的挫折
+* 喜欢的运动
+* 项目中出现的合作问题以及解决
+* TCP连接建立到结束的全过程，包括三次握手四次挥手
+  * cyc2018
+* TCP连接的安全性问题、性能问题
+* 拥塞控制
+
+
+
+注：每次面试结束都可以向面试官提问
