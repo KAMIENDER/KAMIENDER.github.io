@@ -13,7 +13,7 @@ baseurl: ""         # for example, '/blog' if your blog hosted on 'host/blog'
 # SNS settings
 RSS: false
 #weibo_username:     huxpro
-zhihu_username:     猜猜我是谁
+zhihu_username:     he-dong-58-87
 github_username:    KAMIENDER
 #twitter_username:  huxpro
 #facebook_username:  huxpro
@@ -59,7 +59,7 @@ kramdown:
 
 # Analytics settings
 # Baidu Analytics
-ba_track_id: 4cc1f2d8f3067386cc5cdb626a202900
+ba_track_id: 0047fc3f2fc0f4bcb6b8b43e704fe435
 # Google Analytics
 #ga_track_id: 'UA-49627206-1'            # Format: UA-xxxxxx-xx
 #ga_domain: huangxuan.me
@@ -76,6 +76,7 @@ sidebar-avatar: /img/avatar-hux.jpg      # use absolute URL, seeing it's used in
 # Featured Tags
 featured-tags: true                     # whether or not using Feature-Tags
 featured-condition-size: 1              # A tag will be featured if the size of it is more than this condition value
+tags: t1,t2
 
 
 
