@@ -3,7 +3,7 @@ layout:     post
 title:      "Welcome to Hejd's Blog"
 subtitle:   " \"The new blog\""
 date:       2020-03-4 21:30:00
-author:     "Hux"
+author:     "Hejd"
 tags:
     - 生活
     - 前端

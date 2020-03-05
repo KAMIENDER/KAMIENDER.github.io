@@ -3,7 +3,7 @@ layout:     post
 title:      "2020字节春招面经"
 subtitle:   " \"后端实习生面经一份\""
 date:       2020-03-4 21:30:00
-author:     "Hux"
+author:     "Hejd"
 tags:
     - 生活
     - 后端
