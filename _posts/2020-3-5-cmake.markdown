@@ -1,0 +1,11 @@
+---
+layout:    post
+title:     "linux中的cmake"
+data:      2020-03-05 17:30:00
+author:    "Hejd"
+tags:
+    - linux
+---
+
+## linux中使用cmake进行程序的编译
+
