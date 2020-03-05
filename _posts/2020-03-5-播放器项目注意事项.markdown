@@ -1,0 +1,122 @@
+---
+layout:     post
+title:      "前后端分离的播放器项目部署"
+subtitle:   "一个同步听歌的网站"
+date:       2020-03-5 21:00:00
+author:     "Hejd"
+tags:
+    - 后端
+    - 前端
+    - Linux
+    - docker
+---
+
+
+## 前言
+
+这个[网站](http://112.125.88.184:8081/#/)主要是用来同步听歌的，可以通过创建房间进入房间来实现这个功能。前端使用的框架是vue，后端就是简单的js实现的服务器。最终都在服务器上的docker环境内进行部署。
+
+这里主要记录一下部署中遇到的一些情况。
+
+
+
+## 正文
+
+#### docker使用
+
+这里记录一下使用的命令
+
+1. 在对应的环境根目录下执行
+
+   ```shell
+   docker build -t [name] .
+   ```
+
+   可以生成对应的image
+
+2. 查看环境目录
+
+   ```shell
+   docker images
+   ```
+
+3. 运行对应的环境
+
+   ```shell
+   docker run -d [image name]
+   ```
+
+   -d表后台运行，可去除
+
+4. 查看运行中的容器
+
+   ```shell
+   docker ps
+   ```
+
+5. 杀死/暂停对应的容器
+
+   ```shell
+   docker kill/stop [容器id]
+   ```
+
+6. 删除环境（强制-f）
+
+   ```shell
+   docker rmi -f [image name]
+   ```
+
+* 双击Xshell可以建立多个连接
+
+
+
+#### 后端的部署
+
+由于是js服务器，只需要编写dockerfile即可，dockerfile类似docker环境的配置文件或者说是预执行脚本。
+
+```shell
+# 依赖环境
+FROM node:lts-alpine
+
+# 运行入口
+WORKDIR /app
+COPY . /app
+
+# 生成对应的依赖
+RUN rm -f package-lock.json \
+    ; rm -rf .idea \
+    ; rm -rf node_modules \
+    ; npm config set registry "https://registry.npm.taobao.org/" \
+    && npm install
+
+# 访问端口
+EXPOSE 3000
+CMD ["node", "app.js"]
+```
+
+然后建立对应的环境，根据需要进行后台或者直接运行。
+
+
+
+#### 前端的部署
+
+先写Dockerfile
+
+```shell
+# 设置基础镜像
+FROM nginx
+# 定义作者
+MAINTAINER  Hejiadong
+# 将dist文件中的内容复制到 /usr/share/nginx/html/ 这个目录下面
+COPY dist/  /usr/share/nginx/html/
+COPY nginx.conf /etc/nginx/nginx.conf
+RUN echo 'echo init ok!!'
+```
+
+需要注意的是，要事先安装好nginx镜像，然后需要注意的是，在本地运行的时候，vue的配置文件中可能会修改如/api对应的路径，需要改成绝对的网络访问地址，否则是相对路径的访问静态元素。
+
+其他的过程与后端部署类似。
+
+
+
+关于docker的原理及使用部分，明天专门整理一篇出来，今天就先这样吧。
