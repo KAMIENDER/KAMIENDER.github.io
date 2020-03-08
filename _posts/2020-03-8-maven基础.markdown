@@ -1,0 +1,54 @@
+---
+layout:     post
+title:      "Maven基础"
+date:       2020-03-8 10:30:00
+author:     "Hejd"
+tags:
+    - 后端
+    - maven
+---
+
+
+
+### Maven构建项目
+
+* clean：删除之前的编译结果，重新进行编译
+* compile：编译java源程序
+* test：关键点测试
+* package：把工程文件进行打包，方便安装和部署，java工程对应jar包，web对应war包
+* install：将包安装在本地仓库
+* deploy：将打包后的结果部署到远端
+
+
+
+### Maven常用命令
+
+* mvn clean：清除之前的编译结果
+* mvn compile：编译
+* mvn test：编译并且执行
+* mvn package：生成target目录，编译并且测试代码，生成jar、war文件
+
+
+
+约定 > 配置 > 编码，尽量选择大的来解决问题
+
+
+
+### POM
+
+指的是项目对象模型，将java工程最后生成为对象(class)，便于操作和管理，也是Maven工程的核心
+
+
+
+### 如何确定依赖及其版本？
+
+坐标，包含三部分：groupid、artifactid、version
+
+可以唯一确定依赖，然后区仓库中寻找
+
+
+
+​																																——参考[知乎](https://zhuanlan.zhihu.com/p/103461142)
+
+其他更深层的，如依赖传递、仓库种类等直接去看给出的知乎连接
+

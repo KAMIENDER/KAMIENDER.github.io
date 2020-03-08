@@ -1,0 +1,68 @@
+---
+layout:     post
+title:      "springboot学习笔记(1)"
+subtitle:   "springboot目录结构"
+date:       2020-03-8 10:30:00
+author:     "Hejd"
+tags:
+    - 后端
+    - springboot
+    - maven
+---
+
+
+## 前言
+
+Java现在招聘的岗位还是挺多的，后端的话spring基本上一定要跨过去的坎，这里就先从springboot开始学习，这一个博文主要是介绍spring初始化后的目录结构及其对应的作用
+
+
+
+## 正文
+
+#### Mvnw文件
+
+与maven版本有关，保证开发人员maven构建的时候版本保持一致
+
+> maven：
+>
+> 定义：Maven项目对象模型(POM)，可以通过一小段描述信息来管理项目的构建，报告和文档的软件项目管理工具。 Maven 除了以程序构建能力为特色之外，还提供高级项目管理工具。由于 Maven 的缺省构建规则有较高的可重用性，所以常常用两三行 Maven 构建脚本就可以构建简单的项目。由于 Maven 的面向项目的方法，许多 Apache Jakarta 项目发文时使用 Maven，而且公司项目采用 Maven 的比例在持续增长。 Maven这个单词来自于意第绪语（犹太语），意为知识的积累，最初在Jakata Turbine项目中用来简化构建过程。当时有一些项目（有各自Ant build文件），仅有细微的差别，而JAR文件都由CVS来维护。于是希望有一种标准化的方式构建项目，一个清晰的方式定义项目的组成，一个容易的方式发布项目的信息，以及一种简单的方式在多个项目中共享JARs。
+>
+> ​																														————[知乎](https://www.zhihu.com/topic/19629084/intro)
+>
+> 
+>
+> 实际上主要是解决Lib包的版本问题，maven是一个包的管理系统，对应用程序的依赖进行统一管理，包括包的更新
+>
+> 详见另一篇博客Maven基础
+
+
+
+#### 入口文件
+
+在/src/main/java目录下，该文件有@SpringBootApplication注解，该文件中的类为启 动类，该文件为入口文件，会自动扫描此目录及其子目录的类
+
+
+
+#### resources目录
+
+主要是存放资源及配置文件
+
+* static目录：存放静态资源如图片、js文件等
+* template目录：存放编译好的模板文件
+
+* application.properties/application.yml文件：属性文件，也有自己自定义属性文件的方式，可采用springboot中的注解来实现（详情在使用的时候可以查一查）
+* target目录：编译后的项目文件，maven打包后的文件也会在这
+* pom.xml文件：maven工程的主要项目构建及配置文件，标明使用了哪些依赖（dependence）
+
+
+
+#### .mvn和.iml文件
+
+单纯的idea文件以及maven文件，不会提交到服务器
+
+
+
+
+
+
+
