@@ -1,0 +1,124 @@
+---
+layout:     post
+title:      "git基本命令"
+date:       2020-03-13 22:00:00
+author:     "Hejd"
+tags:
+    - 后端
+    - Git
+---
+
+​	平时使用的比较多的都是GitHub Desktop，在shell以及cmd环境1下使用的较少，为了以后的后端工作，这里就先复习一下Git的基本操作以及Git服务器的搭建
+
+
+
+### 搭建Git服务器
+
+* 创建Git用户
+
+```shell
+sudo adduser git
+```
+
+* 创建对应的仓库
+
+```shell
+git init --bare 仓库名
+```
+
+* 将仓库的拥有者改为git
+
+```shell
+ chown -R git:git [.git文件/]
+```
+
+* 本地clone仓库
+
+```shell
+git clone git@[ip地址]:[仓库路径]
+```
+
+
+
+### Git命令
+
+* 将修改加入缓存 . 表示所有文件
+
+```shell
+git add [文件名]
+```
+
+* 查看缓存状态，-s表简短输出
+
+```shell
+git status -s
+```
+
+* 将缓存区内容提交到仓库
+
+```shell
+git commit -m [提交注释]
+```
+
+* 取消该文件缓存内容
+
+```shell
+git reset HEAD [文件名]
+```
+
+* 删除文件
+
+```shell
+git rm [文件名]
+```
+
+
+
+#### 分支管理
+
+* 列出所有分支
+
+```shell
+git branch
+```
+
+* 建立分支
+
+```shell
+git branch [分支名]
+```
+
+* 切换分支
+
+```shell
+git checkout [分支名]
+```
+
+* 删除分支
+
+```shell
+git branch -d [分支名]
+```
+
+* 合并分支，参数中的分支会消失
+
+```shell
+git merge [分支名]
+```
+
+
+
+#### 历史管理
+
+* 查看历史记录，用oneline的话会更加简洁，--graph可以用拓扑图
+
+```shell
+git log (--oneline)
+```
+
+* 回滚
+
+```shell
+git reset --hard [版本号]
+```
+
