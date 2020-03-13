@@ -62,6 +62,30 @@ Java现在招聘的岗位还是挺多的，后端的话spring基本上一定要�
 
 
 
+## 从pom.xml配置文件入手
+
+POM即项目对象模型，是maven的配置文件，描述项目配置信息、版本、名字以及依赖等
+
+#### pom文件结构
+
+* <project> 为整个工程描述符的根
+* <packaging>发行版本，如果是父模块，这个为pom，默认为jar
+
+* <modelVersion> 指的是pom文件是哪个版本的描述符
+* 一开始会有groupId、artifactId、version是你这个工程打包后的唯一的标志信息
+  * 在version中SNAPSHOT表示开发版本，LATEST表最新发布，RELEASE表发布版本
+* <dependencies>依赖，通过指定唯一的版本描述符来指定对应的依赖
+* <parent>可以指定父POM，继承其配置
+* <modules>子模块列表
+* <properties>属性列表，其定义的属性可以在pom.xml文件中任意处使用
+* <dependencyManagement>用来统一管理子模块的依赖版本
+
+以上是常用的配置相关信息，更多的相关pom的描述符可以参考[知乎](https://zhuanlan.zhihu.com/p/76893514)
+
+
+
+
+
 
 
 

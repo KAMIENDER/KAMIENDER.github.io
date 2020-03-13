@@ -1,0 +1,160 @@
+---
+layout:     post
+title:      "MySQL基本命令"
+date:       2020-03-13 16:00:00
+author:     "Hejd"
+tags:
+    - 后端
+    - MySQL
+---
+
+​	主要是记录一下在shell环境下使用MySQL，包括连接备份等操作，顺便复习一下最基本的SQL命令
+
+
+
+### MySQL命令
+
+登入：
+
+* mysql -u [用户名] -p ：表示有密码
+* mysql -h [IP地址] -u [用户名] -p -P [端口号] ：可用于远程连接
+
+
+
+停止myqsl：（cmd管理员模式下）
+
+```sql
+net stop mysql;
+```
+
+
+
+启动mysql：（cmd管理员模式下）
+
+```sql
+net start mysql;
+```
+
+
+
+
+
+查看所有数据库：
+
+```sql
+show databases;
+```
+
+
+
+选择某个数据库：
+
+```sql
+use [数据库名]
+```
+
+
+
+查看当前数据库所有表：
+
+```sql
+show tables;
+```
+
+
+
+查看数据表的列/索引：
+
+```sql
+show columns/index from [表名];
+```
+
+
+
+创建/删除数据库：
+
+```sql
+create/drop database [数据库名];
+```
+
+
+
+创建（临时）表：（临时表在这次连接关闭后就会删除）
+
+```sql
+create (temporary) table [表名] (
+	[列名] [类型] [约束]
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+```
+
+
+
+删除表：
+
+```sql
+drop table [表名];
+```
+
+
+
+创建索引：
+
+```sql
+create (unique) index [索引名字] on [表名]([列名])
+```
+
+
+
+复制表：（第一种会复制结构及数据，第二种只复制结构）
+
+```sql
+create table [新表名] select * from [旧表名]
+create table [新表名] select * from [旧表名] where 1=2
+```
+
+
+
+导出数据：
+
+```sql
+select * from [表名] into outfile [路径] FIELDS TERMINATED BY [列分隔符] ENCLOSED BY [取值左右的标识符 LINES TERMINATED BY [行结束符];
+```
+
+
+
+导出sql脚本：（在cmd下输入命令，可以用于转存数据库，似乎只有结构，没有数据）
+
+```sql
+mysqldump -u [用户名] -p --tab=[路径] [数据库名] [表名]
+```
+
+
+
+导出sql格式数据：（cmd下执行，与上一个相比，有数据）
+
+```sql
+mysqldump -u [用户名] -p [数据库名] [表名] > [路径]
+```
+
+
+
+导入sql格式数据，包括结构：（cmd下执行）
+
+```sql
+mysql -u [用户名] -p [数据库名] < [存储文件]
+```
+
+（mysql内对应database内执行）
+
+```sql
+source [路径];
+```
+
+
+
+导入数据，无结构：
+
+```sql
+LOAD DATA LOCAL INFILE [文件名] INTO TABLE [数据库名];
+```
+
