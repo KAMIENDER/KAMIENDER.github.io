@@ -1,0 +1,65 @@
+---
+layout:     post
+title:      "springboot学习笔记(3)"
+subtitle:   "MyBatis学习"
+date:       2020-03-16 16:00:00
+author:     "Hejd"
+tags:
+    - 后端
+    - spring
+    - MyBatis
+---
+
+## 前言
+
+​	MyBatis实际上就是一个连接Java工程与数据库操作的框架，利用配置文件，自动生成java类文件，生成数据库操作的映射操作xml文件，减少了程序员的工作量，这里主要记录一下我觉得在建立相应java工程的时候需要心里有数的东西
+
+
+
+#### 添加依赖
+
+直接在pom文件里面添加依赖即可，相应的代码可以去maven仓库找
+
+
+
+#### 目录结构及文件作用
+
+* generatorConfig.xml
+
+  ​	最主要的配置文件，记录了mapper xml文件的一些格式要求，生成的类的一些要求，注释的生成，数据库连接的配置（调用外部的配置文件），类的生成目录，mapper的生成目录，java接口的生成路径等
+
+* generator.prorperties
+
+  上文中提到的数据库连接的配置文件，包括数据库驱动，数据库地址，用户名及密码
+
+* model的java文件
+
+  连接中的java类映射，包括数据库中的各个属性以及对应的设置获得方法
+
+* xml mapper文件
+
+  将对应的java操作转换到数据库sql语句，最好尽量自己写，这样子才可以进一步优化sql操作
+
+* interface接口文件
+
+  可以通过调用接口文件中的相应方法，就可以使用mapper文件中的对应sql语句
+
+
+
+完成配置文件的编写后还要写一个generator.java的生成文件，运行该文件后，刷新工作目录，对应的自动生成文件就会到对应的目录下了
+
+
+
+$$在经历了vscode一堆问题后，我放弃了使用vscode来进行springboot的后端开发，还是用回了eclipse，在vscode中遇到了一堆问题，无论是建库，导入jar，执行java文件，都显得十分麻烦$$
+
+
+
+#### 自动生成中的问题
+
+* table name 无法用%对照
+
+  > 问题主要是出在表的建立上，可能是表名与配置没有对应上，也可能是数据库中根本没有表
+
+* closing inbound before receiving peer*'s close_notify*
+
+  > ssl安全连接数据库的问题，在数据库链接的配置文件中，连接url加上参数&useSSL=false

@@ -1,0 +1,27 @@
+---
+layout:     post
+title:      "springboot学习笔记(2)"
+subtitle:   "Hibernate学习"
+date:       2020-03-13 22:00:00
+author:     "Hejd"
+tags:
+    - 后端
+    - spring
+    - Hibernate
+---
+
+## 前言
+
+​	Hibernate是开源的ORM（对象关系）框架，用于关系对象的持久化以及数据库查询服务，将java类映射到数据库表中，这里我们是在Maven环境下导入Hibernate框架
+
+* 什么是JDBC？
+
+> ​	Java Database Connectivity 提供一组Java API来访问关系数据库，可以是Java程序执行SQL语句
+
+
+
+> 配置过程可以参考[博客园](https://www.cnblogs.com/dengcl/p/7591892.html)
+
+> Lombok依赖可以用于自动生成setter、getter等
+
+
