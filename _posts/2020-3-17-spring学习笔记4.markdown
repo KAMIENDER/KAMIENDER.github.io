@@ -1,18 +1,24 @@
 ---
 layout:     post
-title:      "springboot学习笔记(3)"
-subtitle:   "MyBatis学习"
+title:      "springboot学习笔记(4)"
+subtitle:   "PageHelper学习"
 date:       2020-03-16 16:00:00
 author:     "Hejd"
 tags:
     - 后端
     - spring
-    - MyBatis
+    - PageHelper
 ---
 
 ## 前言
 
-​	MyBatis实际上就是一个连接Java工程与数据库操作的框架，利用配置文件，自动生成java类文件，生成数据库操作的映射操作xml文件，减少了程序员的工作量，这里主要记录一下我觉得在建立相应java工程的时候需要心里有数的东西
+​	PageHelper实际上是Mybatis的一个插件，可以根据查询的数量需要进行分页，可以采用拦截器的方式对请求拦截后进行处理，在这个项目里面采用的是查找完后的主动调用来实现分页，若要使用拦截器形式可以参考[中文手册](https://pagehelper.github.io/docs/howtouse/#4-mybatis-%E5%92%8C-spring-%E9%9B%86%E6%88%90%E7%A4%BA%E4%BE%8B)
+
+
+
+* 用到的lombok在eclipse的安装可以参考[博客](https://blog.csdn.net/magi1201/article/details/85995987?depth_1-utm_source=distribute.pc_relevant.none-task&utm_source=distribute.pc_relevant.none-task)
+
+* 有时候正常引入的依赖在写java类时会报错，可以update一下pom.xml或者尝试install一下项目
 
 
 
