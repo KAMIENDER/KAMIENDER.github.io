@@ -95,6 +95,33 @@ assert x >= 0;
 
 
 
+#### Java jwt
+
+​	主要是用于实现token机制，权限验证。全称json web token，定义一种简洁的、自包含的、安全的方法用于通信双方以json对象的形式传递信息
+
+​	实际上就是生成一个字符串，包含了签名、信息等加密后的字符
+
+​	包含了三个部分：Header、Payload、Signature，因此生成的字符串格式为Header.Payload.Signature
+
+> 至于为什么用token的形式，可以去参考cyc2018 session cookie以及token的讨论
+
+
+
+###### 加密内容
+
+* Header：主要是记录两个东西，一个是type，一个是algorithm，为key、value的形式，还有过期的时间信息
+  * {
+    "alg": "HS256",
+    "typ": "JWT"
+    }
+* Payload：负载部分，记录需要传输的主要信息，主要有三种，标准中注册的声明、公共声明、私有声明（claims）
+  * 标准中注册的声明，指的是jwt中提供的key
+  * 公共声明，可以添加任何信息，但是需要注意的是这个可以在客户端进行解密，因此最好不要放敏感信息
+  * 私有声明，提供者以及消费者都可以提供，也不建议放敏感信息，因为是对称解密的，客户端也可以解密
+* Signature：签名信息，用于验证签名的可靠性，将前两部分base64加密后字符串拼合中间用.隔开，最后一部分就是该字符串用header中加密算法进行加密后的字符串，这个步骤需要一个密钥
+
+
+
 #### 进一步讨论Java异常
 
 [ControllerAdvice源码分析及使用](https://blog.csdn.net/GAOXINXINGgaoxinxing/article/details/91416412)
