@@ -16,7 +16,49 @@ tags:
 
 
 
-#### Java接口
+### 后端处理服务过程
+
+![处理流程](E:\jekyll\KAMIENDER.github.io\img\in-post\java杂\1.jpg)
+
+* FilterInvocation封装doFilter传进来的request、response、filterChain等信息是一个整合类
+* 权限验证过程参考[主要是验证用的类之间的关系参考](https://zhuanlan.zhihu.com/p/32954654)、[继承的父类的中的关键方法源码以及调用过程分析](https://zhuanlan.zhihu.com/p/86662663)、[综合参考](https://zhuanlan.zhihu.com/p/47873694)
+
+
+
+##### spring security中的各种类的依赖关系，可进一步参考[知乎](https://zhuanlan.zhihu.com/p/85512235)
+
+```mermaid
+graph LR;
+A("SecurityConfig")-.->B(配置访问权限信息以及Bean的注册)
+A-->C(跨域访问)-->D(白名单允许)-->E(自定义Security认证Filter即jwt)-->I(自定义访问授权filter)
+D-.->F("config数据类，读取记录urls")
+C-.->G("内置功能")
+A-.->H("可自定义返回的访问错误的失败信息")
+```
+
+自定义的授权Filter（相关的类要继承对应的接口）
+
+```mermaid
+graph LR;
+A-.->D("decide方法")
+A("accessDecision类")-.成员.->B(Filter类)
+C("medataSource类")-.成员.->B
+C-.->E("getAttribute方法")
+B-->F("doFilter方法")-->G("调用父类beforeInvocation")
+G-.权限决策.->D
+G-->H("finally afterInvocation")
+G-.加载权限信息.->E
+```
+
+* OncePerRequestFilter被继承的类，在整个权限验证过程中只会被过滤一次（由于兼容的问题不能保证Filter都只跑了一次，但这个是可以保证的），与doFilter对应的方法是doFilterInternal
+* 通过SecurityContextHolder来保存用户上下文的登入信息，与jwt自定义工具类相搭配进行用户信息的验证，通过setAuthentication、getAuthentication来设置具体的用户信息，这个信息是与线程绑定的
+* 在spring security中本身就具有一系列的内置Filter，我们通过addFilterBefore方法来添加自己的自定义Filter到对应的位置上
+* 通过SecurityConfig中的addFilterAt来自定义原有的Filter，更多的添加方法及源码，可以参考[博客](https://blog.csdn.net/qq_36882793/article/details/102869583?depth_1-utm_source=distribute.pc_relevant.none-task&utm_source=distribute.pc_relevant.none-task)
+* 内置UsernamePasswordAuthenticationFilter验证中最重要的是传入实现了自己自定义的authenticate方法的继承AuthenticationManager接口的类，用于验证权限
+
+
+
+### Java接口
 
 ​	只需要提供定义不需要提供实现，由子类来实现，子类可以多继承，但是必须实现该接口总的所有方法，体现了Java多态。
 
@@ -26,7 +68,14 @@ tags:
 
 
 
-#### Java修饰符
+### Java基础数据结构、工具类
+
+* Collection<T>：对象引用的集合，类似小型数据库，包含了List、Set、Queue等子接口
+* URLUtil：工具类，主要是与url相关 [参考](https://www.bookstack.cn/read/hutool/5122006c1ce039fe.md)
+
+
+
+### Java修饰符
 
 * static
   * 修饰变量：静态变量，无论实例的数量，只能保证有一份该变量
@@ -59,33 +108,204 @@ tags:
 
 
 
+### Java反射
+
+##### 反射、IoC、动态代理等关系
+
+
+
+```mermaid
+graph LR;
+反射机制 --> 注解;
+反射机制 --> 动态代理;
+反射机制 --> 依赖注入DI;
+IoC具体实现 --> 依赖注入DI -.- 通过IoC容器注入元数据;
+注解 -.-> 贴上注解 -.-> 注解读取操作; 
+```
+
+
+
+
+
 ### 依赖注入与控制反转
 
-​	在程序设计中存在着紧耦合与松耦合一说，耦合即另外的类A调用了这个类的方法，如果这个类B的方法一旦改变或者需要换成其他的类，另外的类A需要做比较麻烦的修改才可以修复功能，此为紧耦合，这种情况往往需要A自己实例化B，并且实现获取过程
-
-	#### 控制反转是一种思想
+​	在程序设计中存在着紧耦合与松耦合一说，耦合即另外的类A调用了这个类的方法，如果这个类B的方法一旦改变或者需要换成其他的类，另外的类A需要做比较麻烦的修改才可以修复功能，此为紧耦合，这种情况往往需要A自己实例化B，并且实现获取过程，这种代码的维护成本太高了 [参考1](https://zhuanlan.zhihu.com/p/77036617)
 
 
+
+##### 控制反转(IoC)是一种思想
+
+​	如字面意思所示，控制反转可以想成是控制权、决定权的反转，如上一段的两个类，可以采用接口的形式来声明需要用到的方法，让类B、C去实现这个方法，并且在内部实现判断是否提供该功能的方法，在上层的修改就会简单很多
+
+​	顶层代码只需要使用功能，不需要去创建底层对象、修改底层方法
+
+
+
+##### 依赖注入(DI)是一种IoC实现
+
+​	IoC需要我们转移实例化的控制权给底层实现，那么顶层就需要底层在合适的时候将实例赋值给顶层，这个过程被称为注入，这个进行注入操作的地方叫做IoC容器，一般也被称为注射器(injector)
+
+```mermaid
+graph LR;
+底层功能实现-->IoC容器注入-->顶层业务
+```
+
+​	依赖注入的三种方式：
+
+* 构造函数中注入
+* setter方式注入
+* 接口注入，override继承的接口方法
+
+​	在spring中，注入的过程由spring进行控制，只需给出依赖即可
+
+
+
+
+
+```mermaid
+graph LR;
+通过Class类获得属性等 -.- 反射机制
+为内部类前后提供增强代码同时降低耦合参考AOP -.- 动态代理
+不直接通过new操作声明类通过外部注入依赖类的方式降低耦合 -.- DI
+需要注入的对象实现了需要的接口即使用的方法 -.- DI
+```
+
+DI：上层类通过注入依赖的属性实例进行初始化，那么就要从下往上进行初始化，类似深度优先搜索，这个时候我们可以求助于IoC容器，它自动地帮我们进行这个搜索，并且初始化依赖属性成员，返回我们需要的上层的类
+
+
+
+* 上层类声明的内部属性实例是接口来的！注入的实例会向上转型
+
+
+
+​	在上层类的什么地方注入？
+
+> 实际上就是一个将底层属性实例，赋值到上层类的内部属性，在构造函数以及setter中可以实现，甚至只需要注解，取决于使用的注入方法
+
+
+
+​	如何使用这种IoC容器的自动注入？
+
+> * 在构造函数中显示赋值，并且配置spring中的bean
+> * 使用@Autowired，不必要写setter和构造方法
+> * setter注入，被注入的底层属性需要有setter方法，通过配置bean，来指定注入的类
+> * 还可以自动装配，通过配置
+
+* 配置也可通过@Configuration实现
 
 
 
 ### Java注解	
 
-​	java的注解可以理解成为一个标签，通过反射来获取标注的内容，不同的标注其生命周期也不一样
+​	java的注解可以理解成为一个标签，通过反射来获取标注的内容，不同的标注其生命周期也不一样，可以通过注解来识别某一些需要进行特定功能的类或属性，服务的对象是JVM虚拟机、一些使用这些元数据的代码，提供服务的是，整个服务的提供过程通过反射来获得对应的被标记的对象，进而提供服务。
+
+​	不包含业务逻辑，只是包含描述信息，业务逻辑需要自己实现
 
 ​	实现原理、具体功能、类别、使用场景、存在原因
 
+```mermaid
+graph LR;
+实现具有特定标签的业务逻辑(注解解释器)-->注解
+注解--提供信息-->类\属性\方法
+实现具有特定标签的业务逻辑(注解解释器)--反射机制获得成员信息-->类\属性\方法
+```
+
+##### 反射机制
+
+​	可以通过反射机制，在运行时访问java对象的属性、方法或构造方法等
+
+常用的方法有：
+
+* isAnnotationPresent(Class<? extends Annotation> annotationClass)：判断是否使用了某个注解
+* getAnnotation(Class<A> annotationClass) ：获得某个类使用的注解对象
 
 
-#### 内置注解
+
+使用场景：
+
+* 开发框架，动态加载对象
+* 动态代理，AOP中拦截特定的方法会用到
+* 注解的使用，注解本身只是标记作用，通过注解解释器来实现具体注解的业务逻辑
+* 开发拓展功能
+
+缺点：
+
+* 性能开销，无法执行某些java虚拟机的优化，在频繁调用的代码中尽量减少反射的使用
+* 破坏封装性，反射执行中会忽略权限检查，破坏封装
+* 内部曝光，反射的过程可以访问类的所有信息，在可能会出现问题，即破坏了抽象
+
+
+
+##### 元注解
+
+​	注解的注解，注解最基本的信息，包括了生命周期、文档记录、注解对象、是否可继承等属性的确定
+
+###### 类型：
+
+* @Retention：注释的生命周期，即到什么时候就不在起作用
+* @Documented：将注解中的元素包含到文档中去
+* @Target：注解对象限制
+* @Inherited：注解的类的子类如果没注解，那么会继承这个注解
+* @Repeatable：可以重复对一个对象进行注解
+
+
+
+##### 注解的属性
+
+​	注解没有方法，只有成员变量，声明的形式类似方法，返回类型决定了其属性类型，ex：
+
+```java
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface TestAnnotation {
+    int id();
+    String msg();
+}
+```
+
+
+
+##### 内置注解
 
 * @override 检测这个方法是不是重写方法，若父类或接口中没有该方法报错
 * @deprecated 标识过时的的方法，如果使用这个方法，编译器报错
-* @SuppressWaning 让编译器忽视注解中声明的警告
+* @SuppressWanings 让编译器忽视注解中声明的警告
 
 
 
-#### Java序列化类
+##### 其他注解
+
+1.@PostConstruct
+
+   被@PostConstruct修饰的方法会在服务器加载Servlet的时候运行，并且只会被服务器调用一次，类似于Serclet的inti()方法。被@PostConstruct修饰的方法会在构造函数之后，init()方法之前运行。
+
+2.@PreConstruct
+
+   被@PreConstruct修饰的方法会在服务器卸载Servlet的时候运行，并且只会被服务器调用一次，类似于Servlet的destroy()方法。被@PreConstruct修饰的方法会在destroy()方法之后运行，在Servlet被彻底卸载之前。
+
+
+
+##### 获取配置的注解
+
+可以将配置信息注入到bean中去
+
+* @Value：[@Value如何使用？](https://mp.weixin.qq.com/s?__biz=MjM5NjYxNjU0OQ==&mid=2448153022&idx=1&sn=98951ade613559f716686a8404171a59&chksm=b2f9f9b4858e70a2a47f701b222e54ae14ed5cb78ff42f7164b4e3384d6df0dd7bad17ed207f&scene=21#wechat_redirect)
+* @ConfigurationProperties：使用@Value的时候，需要注入多个属性、变量需要写很多次，而这个注解可以更加简洁地注入配置
+
+
+
+### Java Bean
+
+* 初始化顺序：
+
+```mermaid
+graph LR;
+A("Constructor 构造方法")-->B("@Autowired 依赖注入")-->C("@PostConstruct 注释的方法")
+```
+
+
+
+### Java序列化类
 
 ​	Java的序列化机制，一个对象可以被表示为一个字节序列，包括了该对象的数据、类型、存储数据的类型。
 
@@ -102,7 +322,7 @@ tags:
 
 
 
-#### Java断言
+### Java断言
 
 ​	断言是一种程序的调试方式，使用关键字assert来实现断言，如
 
@@ -118,7 +338,7 @@ assert x >= 0;
 
 
 
-#### Java RuntimeException
+### Java RuntimeException
 
 ​	Java对异常进行了分类，不同的异常用不同的类表示，但其更本上来说都是throwable类的子类
 
@@ -139,7 +359,13 @@ assert x >= 0;
 
 
 
-#### Java jwt
+### Java权限控制
+
+​	整个授权访问过程如下所示，实现的时候可以从以下流程来构建类，可以通过继承重写的方式进行自定义
+
+
+
+### Java jwt
 
 ​	主要是用于实现token机制，权限验证。全称json web token，定义一种简洁的、自包含的、安全的方法用于通信双方以json对象的形式传递信息
 
@@ -166,7 +392,7 @@ assert x >= 0;
 
 
 
-#### 进一步讨论Java异常
+### 进一步讨论Java异常
 
 [ControllerAdvice源码分析及使用](https://blog.csdn.net/GAOXINXINGgaoxinxing/article/details/91416412)
 
@@ -174,6 +400,6 @@ assert x >= 0;
 
 
 
-#### Others
+### Others
 
 * Java不支持默认参数，可能会与方法重载冲突，相同输入的情况下不知道选择哪个函数
