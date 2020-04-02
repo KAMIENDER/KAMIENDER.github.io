@@ -22,7 +22,7 @@ tags:
 
 
 
-#### 目录结构及文件作用
+#### 目录结构及文件作用（自动生成）
 
 * generatorConfig.xml
 
@@ -42,7 +42,7 @@ tags:
 
 * model的java文件
 
-  连接中的java类映射，包括数据库中的各个属性以及对应的设置获得方法
+  连接中的java类映射，包括数据库中的各个属性以及对应的设置、获得方法
 
 * xml mapper文件
 
@@ -62,6 +62,10 @@ $$在经历了vscode一堆问题后，我放弃了使用vscode来进行springboo
 
 
 
+自动生成代码有四种方法，可以参考官网以及[博客](https://blog.csdn.net/a_piaoyouareminemine/article/details/50114721)、[博客](https://blog.csdn.net/qq_32786873/article/details/78226925)
+
+
+
 #### 自动生成中的问题
 
 * table name 无法用%对照
@@ -75,3 +79,108 @@ $$在经历了vscode一堆问题后，我放弃了使用vscode来进行springboo
 * target project ... does not exit
 
   > 一般是generatorConfig.xml的生成文件的目录路径配置出现了问题，尝试使用绝对路径
+
+
+
+#### 自己进行mapper等的书写（非自动生成代码）
+
+* xml mapper文件将java操作映射到数据库操作中
+* java mapper、dao映射到表上，为接口，有insert、delete或其他自定义的表的操作
+* model 是映射到表中的存储单位上，对应对象的set、get等方法，实体层
+* Service是一个经过增加功能的代理类
+* Controller使用Service对请求进行处理
+
+每个组件之间的关系可以参考[知乎](https://zhuanlan.zhihu.com/p/95635187)
+
+
+
+```mermaid
+graph LR;
+A("DAO java mapper接口")--数据库操作-->B("xml mapper")
+C("Model 实体")--组成表-->A;
+D("Service代理实现接口")--实现接口-->A;
+E("Controller")--实现业务-->D
+```
+
+
+
+在这里还采用了ElasticsearchRepository来进行进一步的搜索等的处理
+
+```mermaid
+graph LR;
+A("DAO 操作结果")--装载-->B("ElasticsearchRepository")-.->C("可进行更多的操作")
+```
+
+ElasticsearchRepository也是类似数据库一样的东西，通过像类似mysql的连接一样来进行数据的操作
+
+
+
+##### 配置文件
+
+记录了xml mapper、java mapper、 model、数据库连接信息等的文件，有两种书写方法
+
+* xml 文件
+* yml 文件，具体的项可以参考[博客](https://www.jianshu.com/p/cfb84fee0a98)
+
+
+
+##### mapper xml 文件
+
+使用<select>等标签，实现对数据库表项的操作，也可以在java mapper文件上使用@Select等注解实现相同的功能
+
+
+
+### ElasticSearch [教程](https://www.bysocket.com/technique/1829.html) [博客](https://blog.csdn.net/weixin_43814195/article/details/85281287?depth_1-utm_source=distribute.pc_relevant.none-task&utm_source=distribute.pc_relevant.none-task)
+
+0. [安装教程](https://www.cnblogs.com/hualess/p/11540477.html)
+
+1. 使用场景
+
+ES是一个结构化数据的分布式搜索引擎，这里在SpringBoot工程中结合ES
+
+2. 项目结构
+
+* controller - Controller层提供外部访问服务接口
+* repository - ES数据库层
+* service - ES根据数据库操作提供服务层
+* domain - 实体层，数据库中存储的对象
+
+
+
+3. 食用方法
+
+* 依赖导入
+
+> pom文件中导入即可
+
+* repository层
+
+> 构造的是一个数据库接口，默认提供许多的接口了
+
+* 实体层
+
+> 实际上和普通的存储实体没有太大的区别，主要是注解的问题，每种实例参考[博客](https://zyc88.blog.csdn.net/article/details/83059040)
+>
+> @Document 注解在类上，标记该类为文档存储的实体，拥有属性如下
+>
+> * indexName ：对应的索引库的名字
+> * type：对应在索引库的中的实体类型
+> * shards：分片数量，默认为5
+> * replicas：副本数量，默认为1
+>
+> @Id 注解在成员变量上，标记该变量为主键
+>
+> @Field 注解在成员变量上，作为存储实体的字段，并且指定其存储类型，以及指定其是否作为索引等的属性
+>
+> * type：字段数据类型
+>   * text：自动分词产生索引
+>   * keyword：不分词但是产生索引
+>   * Date：日期类型
+>   * 数值的话有很多种
+> * index：是否是索引
+> * store：是否进行存储
+> * analyzer：分词器名称，默认使用ik
+
+* Service层
+
+> 先声明接口，在进行服务实现
