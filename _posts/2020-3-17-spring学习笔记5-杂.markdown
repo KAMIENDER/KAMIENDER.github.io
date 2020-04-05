@@ -53,8 +53,9 @@ G-.加载权限信息.->E
 * OncePerRequestFilter被继承的类，在整个权限验证过程中只会被过滤一次（由于兼容的问题不能保证Filter都只跑了一次，但这个是可以保证的），与doFilter对应的方法是doFilterInternal
 * 通过SecurityContextHolder来保存用户上下文的登入信息，与jwt自定义工具类相搭配进行用户信息的验证，通过setAuthentication、getAuthentication来设置具体的用户信息，这个信息是与线程绑定的
 * 在spring security中本身就具有一系列的内置Filter，我们通过addFilterBefore方法来添加自己的自定义Filter到对应的位置上
-* 通过SecurityConfig中的addFilterAt来自定义原有的Filter，更多的添加方法及源码，可以参考[博客](https://blog.csdn.net/qq_36882793/article/details/102869583?depth_1-utm_source=distribute.pc_relevant.none-task&utm_source=distribute.pc_relevant.none-task)
+* 通过SecurityConfig中的addFilterAt来自定义原有的Filter，更多的添加方法及源码，可以参考[博客](https://blog.csdn.net/qq_36882793/article/details/102869583?depth_1-utm_source=distribute.pc_relevant.none-task&utm_source=distribute.pc_relevant.none-task)，同时[关于何时需要加上@EnableWebSecurity](https://blog.csdn.net/mingtiandexia/article/details/88910370?depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-4&utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-4)
 * 内置UsernamePasswordAuthenticationFilter验证中最重要的是传入实现了自己自定义的authenticate方法的继承AuthenticationManager接口的类，用于验证权限
+* 可参考这个[系列](https://www.jianshu.com/p/0c54788c94f3)
 
 
 
@@ -292,6 +293,28 @@ public @interface TestAnnotation {
 
 * @Value：[@Value如何使用？](https://mp.weixin.qq.com/s?__biz=MjM5NjYxNjU0OQ==&mid=2448153022&idx=1&sn=98951ade613559f716686a8404171a59&chksm=b2f9f9b4858e70a2a47f701b222e54ae14ed5cb78ff42f7164b4e3384d6df0dd7bad17ed207f&scene=21#wechat_redirect)
 * @ConfigurationProperties：使用@Value的时候，需要注入多个属性、变量需要写很多次，而这个注解可以更加简洁地注入配置
+
+
+
+##### 后端服务中各个层的注解
+
+* @Service服务层组件，用于标注业务层组件,表示定义一个bean，自动根据bean的类名实例化一个首写字母为小写的bean
+
+* 例如Chinese实例化为chinese，如果需要自己改名字则:@Service("你自己改的bean名")。  
+
+* @Controller用于标注控制层组件(如struts中的action) 
+
+* @Repository持久层组件，用于标注数据访问组件，即DAO组件 
+
+* @Component泛指组件，当组件不好归类的时候，我们可以使用这个注解进行标注。 
+
+以上的都不需要进一步的配置，spring会自动扫描，一般要在配置文件中写明扫描的包名
+
+
+
+* @PathVariable(value)：获取url里面的value对应的参数
+* @RequestParam(value)：获取request里面value字段的参数
+* @ResponseBody：将方法的返回值对象直接写入返回的Response里，以json的形式
 
 
 

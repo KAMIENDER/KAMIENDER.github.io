@@ -1,0 +1,57 @@
+---
+layout:     post
+title:      "springboot学习笔记(6)"
+subtitle:   "MyBatis学习"
+date:       2020-03-16 16:00:00
+author:     "Hejd"
+tags:
+    - 后端
+    - spring
+    - Elasticsearch
+---
+
+## 前言
+
+​	在之前的第五篇，我们提到了Elasticsearch，用于分布式的搜索，这里我们以流程关系图的形式梳理一下整个的结构，顺便讨论一下其原理
+
+
+
+#### 项目搜索结构
+
+```mermaid
+graph TB;
+A("仓库类继承EsRepository")--成员-->C("Service实现")
+B("实体类domain")--被穿插使用-->C
+C--实现-->D("Service接口")
+```
+
+
+
+#### Service提供的服务可能用到的接口与流程
+
+search流程
+
+```mermaid
+graph TB;
+A("构建分页设置 Pageable")-.->C("分页设置")
+B("构建搜索查询Builder")-->C
+D("根据条件建立搜索语句过滤器")-.->E("设置查询条件")
+C-->E
+E-->F("排序设置")
+F-->G("build查询")-->H("仓库查询")
+```
+
+* builder通过withQuery的方法来添加Filter，withPageable的方式设置分页
+* ElasticsearchTemplate与repository的直接search的方式差不多，不过可以额外设置返回类型，貌似是自动配置的，直接声明成员变量就可以使用了
+
+过滤器的种类：
+
+* BoolQueryBuilder：复合查询
+  * must：必须都含有的查询条件
+  * should：查询条件之间是或的关系
+* FunctionScoreQueryBuilder：建立一系列的评分Filter，输入的是一个FunctionScoreQueryBuilder.FilterFunctionBuilder的List
+  * FunctionScoreQueryBuilder.FilterFunctionBuilder中包含了搜索项以及其对应的分数
+
+
+
+#### 原理[参考](https://zhuanlan.zhihu.com/p/48429223) [知乎](https://www.zhihu.com/question/323811022/answer/981341195)
