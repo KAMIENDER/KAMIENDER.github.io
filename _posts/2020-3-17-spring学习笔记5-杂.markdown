@@ -277,13 +277,17 @@ public @interface TestAnnotation {
 
 ##### 其他注解
 
-1.@PostConstruct
+1. @PostConstruct
 
    被@PostConstruct修饰的方法会在服务器加载Servlet的时候运行，并且只会被服务器调用一次，类似于Serclet的inti()方法。被@PostConstruct修饰的方法会在构造函数之后，init()方法之前运行。
 
-2.@PreConstruct
+2. @PreConstruct
 
    被@PreConstruct修饰的方法会在服务器卸载Servlet的时候运行，并且只会被服务器调用一次，类似于Servlet的destroy()方法。被@PreConstruct修饰的方法会在destroy()方法之后运行，在Servlet被彻底卸载之前。
+
+3. @RunWith(value)
+
+   进行单元测试，使用value的容器运行
 
 
 
@@ -472,3 +476,6 @@ assert x >= 0;
 ### Others
 
 * Java不支持默认参数，可能会与方法重载冲突，相同输入的情况下不知道选择哪个函数
+* Spring中包的扫描机制，启动类及其以下的包都会被扫描，这样就可以扫描到各种注解的类，也可以通过@ComponentScan的注解来设置扫描路径
+* SpringBoot应用的启动过程[简书](https://www.jianshu.com/p/c2789f1548ab)
+
