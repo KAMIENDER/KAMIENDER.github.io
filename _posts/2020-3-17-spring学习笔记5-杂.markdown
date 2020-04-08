@@ -18,7 +18,7 @@ tags:
 
 ### 后端处理服务过程
 
-![处理流程](E:\jekyll\KAMIENDER.github.io\img\in-post\java杂\1.jpg)
+![处理流程](..\img\in-post\java杂\1.jpg)
 
 * FilterInvocation封装doFilter传进来的request、response、filterChain等信息是一个整合类
 * 权限验证过程参考[主要是验证用的类之间的关系参考](https://zhuanlan.zhihu.com/p/32954654)、[继承的父类的中的关键方法源码以及调用过程分析](https://zhuanlan.zhihu.com/p/86662663)、[综合参考](https://zhuanlan.zhihu.com/p/47873694)
@@ -478,7 +478,7 @@ assert x >= 0;
 
       * 在controller等中使用注解即可
 
-      ![注解集合](E:\jekyll\KAMIENDER.github.io\img\in-post\java杂\2.jpg)
+      ![注解集合](..\img\in-post\java杂\2.jpg)
 
 
 
