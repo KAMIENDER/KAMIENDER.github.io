@@ -1,0 +1,53 @@
+---
+layout:     post
+title:      "springboot学习笔记(7)"
+subtitle:   "注解"
+date:       2020-04-08 16:00:00
+author:     "Hejd"
+tags:
+    - 后端
+    - spring
+    - 注解
+---
+
+## 前言
+
+​	已经对照着mall项目实现了一遍其基本功能，由于整个项目较为庞大，涉及较为多的功能模块，包含了各种各样的类，这里对其进行一个整理以及层的划分
+
+
+
+### 整个项目结构
+
+```mermaid
+graph TB;
+A("mbg")--提供数据库服务-->D("search、demo")
+B("common")--提供返回模板-->C("security")
+B--提供返回模板-->D
+C-.访问时先进行验证.->D
+```
+
+
+
+
+
+### 访问时经过的顺序
+
+```mermaid
+graph TB;
+A("访问")-->B
+A-->D;
+	subgraph Sercurity;
+	B("跨域访问")-->C("token验证Filter")-->E("动态权限判定")
+	D("白名单权限判断")
+	end
+	subgraph Logical;
+	D--允许-->F("访问路径匹配controller")
+	E--允许-->F
+	F--调用Service服务-->H("Service层成员")-->I("DAO层成员操作")-->J("包装返回实体")
+	end;
+E--失败-->G("返回自定义的response")
+J-->K("返回前端")
+```
+
+* 需要注意的是每一层中都可能穿插着AOP、IOC、注解、反射等思想、实现
+

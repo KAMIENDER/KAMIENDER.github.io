@@ -288,6 +288,8 @@ public @interface TestAnnotation {
 3. @RunWith(value)
 
    进行单元测试，使用value的容器运行
+   
+4. @Constraint(class)：使用class来进行注解的解析
 
 
 
@@ -297,6 +299,7 @@ public @interface TestAnnotation {
 
 * @Value：[@Value如何使用？](https://mp.weixin.qq.com/s?__biz=MjM5NjYxNjU0OQ==&mid=2448153022&idx=1&sn=98951ade613559f716686a8404171a59&chksm=b2f9f9b4858e70a2a47f701b222e54ae14ed5cb78ff42f7164b4e3384d6df0dd7bad17ed207f&scene=21#wechat_redirect)
 * @ConfigurationProperties：使用@Value的时候，需要注入多个属性、变量需要写很多次，而这个注解可以更加简洁地注入配置
+* @ConditionalOnBean(value)：被注解的类在注入的时候，必须先注入value中的类否则会出现未定义的情况，value是对象，不是类名
 
 
 
@@ -319,6 +322,12 @@ public @interface TestAnnotation {
 * @PathVariable(value)：获取url里面的value对应的参数
 * @RequestParam(value)：获取request里面value字段的参数
 * @ResponseBody：将方法的返回值对象直接写入返回的Response里，以json的形式
+
+
+
+##### 对变量取值进行约束
+
+* @NotNull(message)
 
 
 
