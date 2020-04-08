@@ -1,0 +1,33 @@
+---
+layout:     post
+title:      "springboot学习笔记(7)"
+subtitle:   "注解"
+date:       2020-04-08 16:00:00
+author:     "Hejd"
+tags:
+    - 后端
+    - spring
+    - 注解
+---
+
+## 前言
+
+​	之前在杂中有整理过关于SpringBoot的注解方面的知识，但是在实际使用的过程中，还会遇到各式各样的有用的注解，特此新写一篇来加深自己对这方面的印象
+
+
+
+#### 注解相关的注解
+
+* @Constraint(class)：众所周知，自定义注解的处理包括三个部分：被注解对象、注解定义、注解处理类，这个标注是声明处理这个标签的类，用于数据的合法性验证
+  * 注解处理类需要实现ConstraintValidator<注解接口, 标注对象数据类型>，主要要实现两个方法，initialize和isValid方法，后者返回true则验证通过，isValid传入两个参数一个是被注解的对象，一个是ConstraintValidatorContext上下文
+
+
+
+#### controller相关
+
+* @Validated 与BindingResult配对出现，出现在controller的参数类型验证中，@Validated + 类 + 传入实例后紧跟 BindingResult + 结果实例，表示类型验证结果
+* @RequestParam(value)：前端传入的是键值对，header中设置的传递参数类型contendtype是表格application/x-www-form-urlencoded（默认），可以获得键值对的value字段取值
+* @RequestBody：前端header中ContendType为其他的，后端用结构进行接收（最好别用map）
+
+需要注意的是，data传输的格式都是json，只是数据结构不一致
+
